@@ -1,0 +1,29 @@
+name: "Build and Publish Docker Image"
+
+on: "push"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build & Push to Docker Hub
+        uses: opspresso/action-docker@master
+        env:
+          IMAGE_NAME: "n1ru4l/docker-python-node-audio-processing"
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          TAG_NAME: "${{ github.sha }}"
+          LATEST: "true"
+
+      - name: Build & Push to GitHub Package
+        uses: opspresso/action-docker@master
+        env:
+          USERNAME: ${{ secrets.GITHUB_USERNAME }}
+          PASSWORD: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          REGISTRY: "docker.pkg.github.com"
+          TAG_NAME: "${{ github.sha }}"
+          LATEST: "true"
