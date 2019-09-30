@@ -62,7 +62,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
     && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
-ENV YARN_VERSION 1.13.0
+ENV YARN_VERSION 1.17.3
 
 RUN set -ex \
     && curl -fsSLO --compressed "https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
