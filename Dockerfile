@@ -1,46 +1,5 @@
 FROM python:3.6.12-slim-stretch
 
-RUN echo "build audiowaveform" \
-    && apt-get update \
-    && apt-get install -y \
-    git \
-    make \
-    cmake \
-    g++ \
-    libboost-all-dev \
-    libmad0-dev \
-    libid3tag0-dev \
-    libsndfile1-dev \
-    libgd-dev \
-    && echo "installed audiowaveform dependencies" \
-    && git clone --depth 1 --branch 1.4.2 https://github.com/bbc/audiowaveform.git /audiowaveform \
-    && mkdir -p /audiowaveform/build \
-    && cd /audiowaveform/build \
-    && cmake -D ENABLE_TESTS=0 .. \
-    && make \
-    && make install \
-    && echo "build audiowaveform done" \
-    && apt-get remove -y \
-    git \
-    make \
-    cmake \
-    g++ \
-    libboost-all-dev \
-    libmad0-dev \
-    libid3tag0-dev \
-    libsndfile1-dev \
-    libgd-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /audiowaveform \
-    && audiowaveform --help \
-    && echo "audiowaveform works"
-
-RUN apt-get update \
-    && apt-get -y install \
-    curl \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN groupadd --gid 1000 node \
     && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
@@ -128,5 +87,46 @@ RUN set -ex \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     # smoke test
     && yarn --version
+    
+RUN echo "build audiowaveform" \
+    && apt-get update \
+    && apt-get install -y \
+    git \
+    make \
+    cmake \
+    g++ \
+    libboost-all-dev \
+    libmad0-dev \
+    libid3tag0-dev \
+    libsndfile1-dev \
+    libgd-dev \
+    && echo "installed audiowaveform dependencies" \
+    && git clone --depth 1 --branch 1.4.2 https://github.com/bbc/audiowaveform.git /audiowaveform \
+    && mkdir -p /audiowaveform/build \
+    && cd /audiowaveform/build \
+    && cmake -D ENABLE_TESTS=0 .. \
+    && make \
+    && make install \
+    && echo "build audiowaveform done" \
+    && apt-get remove -y \
+    git \
+    make \
+    cmake \
+    g++ \
+    libboost-all-dev \
+    libmad0-dev \
+    libid3tag0-dev \
+    libsndfile1-dev \
+    libgd-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /audiowaveform \
+    && audiowaveform --help \
+    && echo "audiowaveform works"
+    
+RUN apt-get update \
+    && apt-get -y install \
+    curl \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
