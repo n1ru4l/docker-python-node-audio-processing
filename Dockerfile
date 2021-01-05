@@ -3,7 +3,7 @@ FROM python:3.6.12-slim-stretch
 RUN groupadd --gid 1000 node \
     && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
-ENV NODE_VERSION 12.18.3
+ENV NODE_VERSION 14.15.4
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
     && case "${dpkgArch##*-}" in \
@@ -54,7 +54,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
     && node --version \
     && npm --version
 
-ENV YARN_VERSION 1.22.4
+ENV YARN_VERSION 1.22.5
 
 RUN set -ex \
     && savedAptMark="$(apt-mark showmanual)" \
@@ -87,7 +87,7 @@ RUN set -ex \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     # smoke test
     && yarn --version
-    
+
 RUN echo "build audiowaveform" \
     && apt-get update \
     && apt-get install -y \
@@ -122,7 +122,7 @@ RUN echo "build audiowaveform" \
     && rm -rf /audiowaveform \
     && audiowaveform --help \
     && echo "audiowaveform works"
-    
+
 RUN apt-get update \
     && apt-get -y install \
     curl \
