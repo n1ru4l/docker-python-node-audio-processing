@@ -1,4 +1,4 @@
-FROM python:3.6.12-slim-stretch
+FROM python:3.7.9-slim-stretch
 
 RUN groupadd --gid 1000 node \
     && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
