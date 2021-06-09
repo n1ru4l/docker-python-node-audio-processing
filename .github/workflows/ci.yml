@@ -27,3 +27,11 @@ jobs:
           REGISTRY: "docker.pkg.github.com"
           TAG_NAME: "${{ github.sha }}"
           LATEST: "true"
+
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            **This image has been published to DockerHub.** 🐋   
+            You can easily try this build out locally with Docker.
+            `docker run n1ru4l/docker-python-node-audio-processing:${{ github.sha }}`
